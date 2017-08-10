@@ -10,6 +10,7 @@
     "build": "babel src --out-dir dist --source-maps",
     "start": "babel-node src/index.js",
     "serve": "node dist/index.js",
+    "test": "babel-node test/index.js",
     "postinstall": "npm run build"
   },
   "dependencies": {
