@@ -40,9 +40,10 @@ const getMovieDetail = (movie) => {
 }
 
 
-module.exports = function ($) {
+export default function ($) {
     const source = Observable.just($).map(getMoviesList)
         .flatMap(Observable.fromArray)
+        .take(2)
 
     return Observable.zip(source, Observable.interval(CONNECTION_INTERVAL))
         .map(wrapper => wrapper[0])

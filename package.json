@@ -2,16 +2,15 @@
   "name": "flying-trucks",
   "version": "0.0.1",
   "description": "Function as service working as webcrawler and newsletter generator",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": "https://github.com/Zombispormedio/flying-trucks.git",
   "author": "Xavier Serrano Espinosa",
   "license": "MIT",
   "scripts": {
-    "build": "babel src --out-dir dist --source-maps",
     "start": "babel-node src/index.js",
-    "serve": "node dist/index.js",
+    "serve": "node build/bundle.js",
     "test": "ava --timeout=10m",
-    "postinstall": "npm run build"
+    "build": "webpack"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
@@ -22,11 +21,13 @@
     "rx": "^4.1.0"
   },
   "devDependencies": {
-    "@ava/babel-preset-stage-4": "^1.1.0",
-    "@ava/babel-preset-transform-test-files": "^3.0.0",
     "ava": "^0.21.0",
     "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.6.0"
+    "babel-preset-env": "^1.6.0",
+    "webpack": "^3.5.4",
+    "webpack-node-externals": "^1.6.0"
   }
 }

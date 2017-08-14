@@ -10,4 +10,4 @@ Module.fromUrl = (url) => Observable.fromPromise(got(url))
     .map(response => response.body)
     .map(cheerio.load)
 
-module.exports = Module
+export default Module
