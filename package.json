@@ -7,7 +7,7 @@
   "author": "Xavier Serrano Espinosa",
   "license": "MIT",
   "scripts": {
-    "start": "babel-node src/index.js",
+    "start": "babel-node src/main.js",
     "serve": "node build/bundle.js",
     "test": "ava --timeout=10m",
     "build": "webpack"

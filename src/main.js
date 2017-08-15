@@ -1,12 +1,15 @@
 import {Observable} from 'rx'
 import {pretty} from './lib/strings'
 import Observables from './lib/observables'
-import domains from './domain/base'
+import {configureEnvironment} from './configuration'
+import Products from './product'
 
+configureEnvironment()
+const products = Products()
 
-const source = Observable.fromArray(Object.keys(domains))
+const source = Observable.fromArray(Object.keys(products))
     .flatMap(key => {
-        const {url, exec} = domains[key]
+        const {url, exec} = products[key]
         return Observables.fromUrl(url)
                         .flatMap(exec)
                         .map(value => ({key, value}))

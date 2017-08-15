@@ -2,7 +2,7 @@ import {
     Observable
 } from "rx"
 
-import Observables from '../lib/observables'
+import Observables from '../../lib/observables'
 
 const CONNECTION_INTERVAL = 1000
 const jsTorrentRegex = /openTorrent/g

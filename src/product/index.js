@@ -1,9 +1,6 @@
-import {configureEnvironment} from '../config/main'
 import moviesDomain from './movies'
 
-configureEnvironment()
-
-export default {
+export default () => ({
     movies: {
         exec: moviesDomain,
         url: process.env.MOVIES
@@ -13,4 +10,4 @@ export default {
             exec: require("./series"),
             url: process.env.TV_SERIES
         }*/
-}
+})
