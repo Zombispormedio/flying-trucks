@@ -1,9 +1,7 @@
-import test from 'ava';
-import {Observable} from 'rx'
+//import test from 'ava';
+import {createMovieProcessor} from '../src/processors/movies'
+import Processor from '../src/processors/base'
 
+const processor = createMovieProcessor()
 
-test(t => {
-    t.plan(10)
-    return Observable.range(0, 10).map(()=>t.pass())
-        .subscribe()
-})
+console.dir(processor instanceof Processor)

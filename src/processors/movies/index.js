@@ -3,6 +3,7 @@ import {
 } from "rx"
 
 import Observables from '../../lib/observables'
+import Processor, {createProcessor} from '../base'
 
 const CONNECTION_INTERVAL = 1000
 const jsTorrentRegex = /openTorrent/g
@@ -40,7 +41,7 @@ const getMovieDetail = (movie) => {
 }
 
 
-export default function ($) {
+ /*function ($) {
     const source = Observable.just($).map(getMoviesList)
         .flatMap(Observable.fromArray)
         .take(2)
@@ -48,4 +49,13 @@ export default function ($) {
     return Observable.zip(source, Observable.interval(CONNECTION_INTERVAL))
         .map(wrapper => wrapper[0])
         .flatMap(getMovieDetail)
+}*/
+
+class MovieProcessor extends Processor{
+
 }
+
+
+export const createMovieProcessor = () => createProcessor(MovieProcessor.prototype, "Hello", {}, {})
+
+export default MovieProcessor

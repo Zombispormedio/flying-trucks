@@ -10,6 +10,7 @@
     "start": "babel-node src/main.js",
     "serve": "node build/bundle.js",
     "test": "ava --timeout=10m",
+    "simple-test": "babel-node test/index.js",
     "build": "webpack"
   },
   "dependencies": {
