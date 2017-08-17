@@ -1,14 +1,14 @@
-import {
+/*import {
     Observable
 } from "rx"
 
-import Observables from '../../lib/observables'
-import Processor, {createProcessor} from '../base'
+import Observables from '../../lib/observables'*/
+import Processor from '../base.js'
 
 const CONNECTION_INTERVAL = 1000
 const jsTorrentRegex = /openTorrent/g
 const locationRegex = /window\.location\.href.*/g
-
+/*
 const getMoviesList = ($) => {
     return $('ul.pelilist').children('li').map(function (i, elem) {
         const parent = $(this).children('a')
@@ -52,10 +52,9 @@ const getMovieDetail = (movie) => {
 }*/
 
 class MovieProcessor extends Processor{
-
+    process(){
+        return super.process()
+    }
 }
-
-
-export const createMovieProcessor = () => createProcessor(MovieProcessor.prototype, "Hello", {}, {})
 
 export default MovieProcessor

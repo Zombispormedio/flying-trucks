@@ -1,40 +1,33 @@
 import Observables from '../lib/observables'
 
-class Processor {
-    constructor(initUrl, harvester, store){
-        this.harvester = harvester
-        this.store = store
-        this.initUrl = initUrl
-    }
-
-    newRequest(){
-        this.pipeline = Observables.fromUrl(this.initUrl)
-        return this
-    }
-
-    process(){
-        return this.pipeline;
-    }
-}
-
-const defaults = {
+const defaultDescriptor = {
     enumerable: true,
     configurable: false,
     writable: false,
 }
 
-export const createProcessor = (prototype, initUrl, harvester, store) => Object.create(prototype, {
-    initUrl:{
-        ...defaults,
-        value: initUrl
-    },
-    harvester:{
-        ...defaults,
-        value: harvester
-    },
-    store:{
-        ...defaults,
-        value: store
-    },
-})
-export default Processor
+export const createProcessor = (prototype, options) => {
+    const descriptors = Object.entries(options)
+        .reduce((memo, [key, value]) => {
+            return {
+                ...memo,
+                [key]: {
+                    ...defaultDescriptor,
+                    value
+                }
+            }
+        }, {})
+    return Object.create(prototype, descriptors)
+}
+
+export default class Processor {
+    constructor(initUrl, harvester, store) {
+        this.harvester = harvester
+        this.store = store
+        this.initUrl = initUrl
+    }
+
+    process() {
+       return Observables.fromUrl(this.initUrl)
+    }
+}

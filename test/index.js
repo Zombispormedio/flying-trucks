@@ -1,7 +1,7 @@
 //import test from 'ava';
-import {createMovieProcessor} from '../src/processors/movies'
-import Processor from '../src/processors/base'
+import MovieProcessor from '../src/processors/movies'
+import {configureEnvironment} from '../src/configuration'
+//import Processors from '../src/processors'
+configureEnvironment()
+console.dir(MovieProcessor)
 
-const processor = createMovieProcessor()
-
-console.dir(processor instanceof Processor)

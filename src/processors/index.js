@@ -1,13 +1,17 @@
-import moviesDomain from './movies'
+import MovieProcessor from './movies'
+import {createProcessor} from './base'
 
-export default () => ({
-    movies: {
-        exec: moviesDomain,
-        url: process.env.MOVIES
+export const createMovieProcessor = (url) => {
+    const optionsProcessor = {
+        name: 'movies',
+        initUrl: url,
+        harvester: {},
+        store: {}
     }
-    /*,
-        tvSeries:{
-            exec: require("./series"),
-            url: process.env.TV_SERIES
-        }*/
-})
+    return createProcessor(MovieProcessor.prototype, optionsProcessor)
+}
+
+export default () => {
+    const movieProcessor = createMovieProcessor(process.env.MOVIES_URL)
+    return [movieProcessor]
+}
