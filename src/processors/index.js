@@ -1,12 +1,13 @@
 import MovieProcessor from './movies'
 import {createProcessor} from './base'
+import {store, harvester} from '../datasource' 
 
-export const createMovieProcessor = (url) => {
+export const createMovieProcessor = (initUrl) => {
     const optionsProcessor = {
         name: 'movies',
-        initUrl: url,
-        harvester: {},
-        store: {}
+        initUrl,
+        harvester,
+        store
     }
     return createProcessor(MovieProcessor.prototype, optionsProcessor)
 }

@@ -1,0 +1,1 @@
+export const CONNECTION_INTERVAL = 1000
