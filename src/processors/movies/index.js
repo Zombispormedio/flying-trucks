@@ -24,18 +24,41 @@ const resolveId = (movie) => {
     }
 }
 
-class MovieProcessor extends Processor{
-    process(){
-        const {harvester} = this
-        const source = super.process()
-        .map(this.harvester.getMoviesList)
-        .flatMap(Observable.fromArray)
-        .map(resolveId)
-        .take(2)
+const existsMovieById = function(){
+    const {movie, store} = this
+    const value = store.getMovieById(movie.id)
+    return Observable.just(value)
+            .map((obj)=>[movie, obj != void 0] )
+}
 
-    return Observable.zip(source, Observable.interval(CONNECTION_INTERVAL))
+const persistMovie = function(){
+    const {movie, store} = this
+    return Observable.fromPromise(store.persistMovie(movie))
+            .map(()=>movie)
+}
+
+class MovieProcessor extends Processor{
+
+    process(){
+        const {harvester, store} = this
+        const source = super.process()
+        .map(harvester.getMoviesList)
+        .flatMap(Observable.fromArray)
+
+        let sampledSource = source;
+        if(process.env.MOVIES_SAMPLING != void 0){
+            sampledSource = source.take(Number(process.env.MOVIES_SAMPLING))
+        }
+        
+        const processedSource = sampledSource.map(resolveId)
+        .flatMap(movie => existsMovieById.bind({movie, store})())
+        .filter(([movie, exists])=>!exists)
+        .map(([movie, exists])=>movie)
+
+    return Observable.zip(processedSource, Observable.interval(CONNECTION_INTERVAL))
         .map(([movie, _]) => movie)
         .flatMap(movie => getMovieDetail.bind({movie, harvester})())
+        .flatMap(movie=>persistMovie.bind({movie, store})())
     }
 }
 

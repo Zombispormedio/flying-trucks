@@ -1,6 +1,5 @@
 import low from 'lowdb'
 import lowFileAsync from 'lowdb/lib/storages/file-async'
-console.log(lowFileAsync)
 const db = low('db.json', { storage: lowFileAsync })
 
 const Module  =  {}
