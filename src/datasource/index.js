@@ -1,16 +1,14 @@
 import HarvesterDataSource from './harvester'
 import LowDBDatasource from './lowdb'
 import MongoDBDatasource from './mongodb'
+import {isMongodb} from '../configuration'
 
 export const harvester = HarvesterDataSource
 
-import {isDevelopment} from '../configuration'
-
-let storeModule;
-if(isDevelopment()){
-     storeModule = LowDBDatasource
-}else{
-    storeModule = MongoDBDatasource
+export const createStore = () => {
+    if(isMongodb()){
+        return MongoDBDatasource
+   }else{
+       return LowDBDatasource
+   }
 }
-
-export const store = storeModule

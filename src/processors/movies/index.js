@@ -27,7 +27,7 @@ const resolveId = (movie) => {
 const existsMovieById = function(){
     const {movie, store} = this
     const value = store.getMovieById(movie.id)
-    return Observable.just(value)
+    return Observable.fromPromise(value)
             .map((obj)=>[movie, obj != void 0] )
 }
 

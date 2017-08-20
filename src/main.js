@@ -14,7 +14,7 @@ Observable.fromPromise(store.connectDatabase())
           .flatMap(startProcessors)
           .subscribe(
             function (x) {
-              console.log(pretty `${x}`);
+              console.log(pretty`${x}`);
             },
             function (err) {
               console.log(`Error: ${err}`);

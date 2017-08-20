@@ -27,6 +27,10 @@ export default class Processor {
         this.initUrl = initUrl
     }
 
+    getStore(){
+        return this.store
+    }
+
     process() {
        return Observables.fromUrl(this.initUrl)
     }

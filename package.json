@@ -8,10 +8,12 @@
   "license": "MIT",
   "scripts": {
     "start": "babel-node src/main.js",
-    "serve": "node build/bundle.js",
+    "serve": "node build/main.bundle.js",
     "test": "ava --timeout=10m",
     "simple-test": "babel-node test/index.js",
-    "build": "webpack"
+    "movie": "babel-node src/functions/movies.js",
+    "build": "webpack",
+    "clean": "node clean-up.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
@@ -27,7 +29,9 @@
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
+    "del": "^3.0.0",
     "webpack": "^3.5.4",
     "webpack-node-externals": "^1.6.0"
   }

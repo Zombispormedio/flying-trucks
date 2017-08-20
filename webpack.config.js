@@ -6,11 +6,12 @@ module.exports = {
     target: 'node',
     externals: [nodeExternals()],
     entry: {
-        app: './index.js',
+        main: './main.js',
+        movies: './functions/movies.js'
     },
     output: {
         path: path.resolve(__dirname, './build'),
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
     },
 
     module: {
@@ -21,8 +22,8 @@ module.exports = {
                 loader: 'babel-loader',
                 options: {
                     presets: ['env'],
-                    plugins: [require('babel-plugin-transform-object-rest-spread')],
-                    ignore: '/node_modules/'   
+                    plugins: [require('babel-plugin-transform-object-rest-spread'), require("babel-plugin-transform-runtime")],
+                    ignore: '/node_modules/'
                 }
             }
         }]
