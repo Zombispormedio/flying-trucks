@@ -1,4 +1,5 @@
 import MovieProcessor from './movies'
+import OmnibusProcessor from './omnibus'
 import {createProcessor} from './base'
 import {createStore, harvester} from '../datasource' 
 
@@ -10,6 +11,16 @@ export const createMovieProcessor = (url) => {
         store: createStore()
     }
     return createProcessor(MovieProcessor.prototype, optionsProcessor)
+}
+
+export const createOmnibusProcessor = (url) =>{
+    const optionsProcessor = {
+        name: 'omnibus',
+        initUrl: url || process.env.OMNIBUS_URL,
+        harvester,
+        store: createStore()
+    }
+    return createProcessor(OmnibusProcessor.prototype, optionsProcessor)
 }
 
 export default () => {

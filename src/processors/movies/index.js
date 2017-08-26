@@ -4,7 +4,6 @@ import Observables from '../../lib/observables'
 import Processor from '../base.js'
 import {CONNECTION_INTERVAL} from '../../configuration/constants'
 
-
 const getMovieDetail= function(){
     const {movie, harvester} = this
     return Observables.fromUrl(movie.link)

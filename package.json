@@ -12,6 +12,7 @@
     "test": "ava --timeout=10m",
     "simple-test": "babel-node test/index.js",
     "movie": "babel-node src/functions/movies.js",
+    "omnibus": "babel-node src/functions/omnibus.js",
     "build": "webpack",
     "clean": "node clean-up.js"
   },
@@ -20,6 +21,7 @@
     "dotenv": "^4.0.0",
     "got": "^7.1.0",
     "lowdb": "^0.16.2",
+    "mongoose": "^4.11.7",
     "ramda": "^0.24.1",
     "rx": "^4.1.0"
   },

@@ -1,17 +1,17 @@
 import {Observable} from 'rx'
-import {pretty} from '../lib/strings'
+import util from 'util'
 import {configureEnvironment} from '../configuration'
-import {createMovieProcessor
-} from '../processors'
+import {createOmnibusProcessor} from '../processors'
 
 configureEnvironment()
-const movieProcessor = createMovieProcessor()
+const omnibusProcessor = createOmnibusProcessor()
 
-Observable.fromPromise(movieProcessor.getStore().connectDatabase())
-          .flatMap(() => movieProcessor.process())
+Observable.fromPromise(omnibusProcessor.getStore().connectDatabase())
+          .flatMap(() => omnibusProcessor.process())
           .subscribe(
             function (x) {
-              console.log(pretty`${x}`);
+              console.log(util.inspect(x
+              ));
             },
             function (err) {
               console.log(`Error: ${err}`);

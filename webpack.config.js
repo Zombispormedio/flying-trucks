@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
+
 module.exports = {
     context: path.resolve(__dirname, './src'),
     target: 'node',
@@ -8,6 +9,7 @@ module.exports = {
     entry: {
         main: './main.js',
         movies: './functions/movies.js'
+        omnibus: './functions/omnibus.js'
     },
     output: {
         path: path.resolve(__dirname, './build'),
