@@ -14,7 +14,9 @@ const extractDataFromScript = (rawData)=>{
     return {movies: sandbox.arrayMODPC, series: sandbox.arrayMODSH}
 }
 
-const foldArrayToObject = ([id, link, imageUrl, title, format])=>({id, link, imageUrl, title: title.trim(), format})
+const foldArrayToObject = ([id, link, imageUrl, title, format]) => ({
+        id, link, imageUrl, title: title.trim(), format, createdAt: new Date()
+    })
 
 const resolveTorrentLink = () => ((data) => {
     const {imageUrl} = data
@@ -26,14 +28,16 @@ const resolveTorrentLink = () => ((data) => {
 const processMovies = function(movies){
     const {store: { substractMovieIds, persistMovies }} = this
     const featuredObservable = Observable.fromArray(this.featured)
+                                    .map(movie => ({...movie, createdAt: new Date()}))
     const inputObservable = Observable.fromArray(movies)
                                 .map(foldArrayToObject)
     return Observable.concat(featuredObservable, inputObservable)
             .map(resolveTorrentLink())
             .toArray()
-            .flatMap(movies => Observable.fromPromise(substractMovieIds(movies)))
+            //.flatMap(movies => Observable.fromPromise(substractMovieIds(movies)))
             .flatMap(sampleDataFromArray(2))
-            .doOnNext(movies => Observable.fromPromise(persistMovies(movies)))
+            .flatMap(movies => Observable.fromPromise(persistMovies(movies))
+                                .map(() => movies))
 }
 
 const processSeries = function(series){
@@ -42,9 +46,10 @@ const processSeries = function(series){
             .map(foldArrayToObject)
             .map(resolveTorrentLink())
             .toArray()
-            .flatMap(series => Observable.fromPromise(substractSerieIds(series)))
+            //.flatMap(series => Observable.fromPromise(substractSerieIds(series)))
             .flatMap(sampleDataFromArray(2))
-            .doOnNext(series => Observable.fromPromise(persistSeries(series)))
+            .flatMap(series => Observable.fromPromise(persistSeries(series))
+                                .map(() => series))
 }
 
 const foldData = function({featured, data: {series, movies}}){

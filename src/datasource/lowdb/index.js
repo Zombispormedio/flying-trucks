@@ -16,6 +16,10 @@ Module.connectDatabase = () => {
         .write()
 }
 
+Module.close = () => {
+    
+}
+
 const getModelById = (type, id) => {
     return new Promise((resolve) => {
         const value = db.get(ModelTypes[type].modelName.lowdb)

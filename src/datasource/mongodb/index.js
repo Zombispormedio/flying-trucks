@@ -1,15 +1,33 @@
+import mongoose from 'mongoose'
+import {curry} from 'ramda'
+import {ModelTypes} from '../../configuration/constants'
+import Models from './models'
+
+mongoose.Promise = Promise;
 const Module  =  {}
 
 Module.connectDatabase = () => {
-    return new Promise((resolve)=>resolve())
+    return mongoose.connect(process.env.MONGODB_URL, { useMongoClient: true })
 }
 
-Module.getMovieById = (id) => {
-    return new Promise((resolve)=>resolve())
+Module.close = () => {
+    mongoose.connection.close()
 }
 
-Module.persistMovie = (movie) => {
-    return new Promise((resolve)=>resolve())
+const persistModels = (type, data) => {
+    return Models[type].insertMany(data)
 }
+
+Module.persistMovies = curry(persistModels)(ModelTypes.MOVIE)
+Module.persistSeries = curry(persistModels)(ModelTypes.SERIE)
+
+
+
+const substractIds = (type, data) =>{
+
+}
+
+Module.substractMovieIds = curry(substractIds)(ModelTypes.MOVIE)
+Module.substractSerieIds = curry(substractIds)(ModelTypes.SERIE)
 
 export default Module

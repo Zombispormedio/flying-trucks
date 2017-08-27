@@ -5,13 +5,15 @@ import {createOmnibusProcessor} from '../processors'
 
 configureEnvironment()
 const omnibusProcessor = createOmnibusProcessor()
+const store = omnibusProcessor.getStore();
 
-Observable.fromPromise(omnibusProcessor.getStore().connectDatabase())
+Observable.fromPromise(store.connectDatabase())
           .flatMap(() => omnibusProcessor.process())
+          .doOnCompleted(()=>store.close())
+          .doOnError(()=>store.close())
           .subscribe(
             function (x) {
-              console.log(util.inspect(x
-              ));
+              console.log(util.inspect(x));
             },
             function (err) {
               console.log(`Error: ${err}`);
