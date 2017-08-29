@@ -15,7 +15,7 @@ const extractDataFromScript = (rawData)=>{
 }
 
 const foldArrayToObject = ([id, link, imageUrl, title, format]) => ({
-        id, link, imageUrl, title: title.trim(), format, createdAt: new Date()
+        id: Number(id), link, imageUrl, title: title.trim(), format, createdAt: new Date()
     })
 
 const resolveTorrentLink = () => ((data) => {
@@ -34,8 +34,7 @@ const processMovies = function(movies){
     return Observable.concat(featuredObservable, inputObservable)
             .map(resolveTorrentLink())
             .toArray()
-            //.flatMap(movies => Observable.fromPromise(substractMovieIds(movies)))
-            .flatMap(sampleDataFromArray(2))
+            .flatMap(movies => Observable.fromPromise(substractMovieIds(movies)))
             .flatMap(movies => Observable.fromPromise(persistMovies(movies))
                                 .map(() => movies))
 }
@@ -44,10 +43,8 @@ const processSeries = function(series){
     const {store: { substractSerieIds, persistSeries }} = this
     return Observable.fromArray(series)
             .map(foldArrayToObject)
-            .map(resolveTorrentLink())
             .toArray()
-            //.flatMap(series => Observable.fromPromise(substractSerieIds(series)))
-            .flatMap(sampleDataFromArray(2))
+            .flatMap(series => Observable.fromPromise(substractSerieIds(series)))
             .flatMap(series => Observable.fromPromise(persistSeries(series))
                                 .map(() => series))
 }

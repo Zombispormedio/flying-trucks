@@ -51,8 +51,6 @@ const existsById = (type, id) =>{
 
 const substractIds = (type, data) =>{
     return new Promise((resolve, reject) => {
-        if(!ModelTypes.hasOwnProperty(type)) 
-            return reject(new TypeError("ModelTypeSymbol is not specified"))
         const filteredData = data.filter(item =>  existsById(type, item.id))
         resolve(filteredData)
     })
