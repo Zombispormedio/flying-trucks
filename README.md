@@ -1,4 +1,4 @@
-# Flying Trucks
+# Flying Trucks 🚚
 
 [Work in progress]
 
