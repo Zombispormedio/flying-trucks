@@ -1,0 +1,40 @@
+<mjml>
+
+  <mj-head>
+
+    <mj-attributes>
+      <mj-text align="center" color="#555" />
+      <mj-container background-color="#eee" />
+      <mj-section background-color="#fff" />
+    </mj-attributes>
+
+  </mj-head>
+
+  <mj-body>
+    <mj-container>
+      <mj-section>
+
+        <mj-column>
+          <mj-text align="left">
+            Tv Series
+          </mj-text>
+        </mj-column>
+        <mj-column>
+          <mj-text align="right">
+            <a href="email-permalink">Read in the browser</a>
+          </mj-text>
+        </mj-column>
+
+      </mj-section>
+      <mj-section>
+        <mj-column>
+          <mj-image src="http://www.torrentrapid.com/pictures/c/1874_gotham.jpg" width="300px"></mj-image>
+          <mj-text align="center">
+            Gotham
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-container>
+  </mj-body>
+
+</mjml>

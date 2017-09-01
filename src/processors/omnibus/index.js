@@ -2,9 +2,8 @@ import vm from 'vm'
 import path from 'path'
 import {Observable} from 'rx'
 import Processor from '../base.js'
-import {getTorrentPathname} from '../../configuration/constants'
-import {sampleDataFromArray} from '../../lib/observables'
-import util from 'util'
+import {getTorrentPathname, CONNECTION_INTERVAL} from '../../configuration/constants'
+import Observables from '../../lib/observables'
 
 const extractDataFromScript = (rawData)=>{
     const sandbox = {}
@@ -18,12 +17,26 @@ const foldArrayToObject = ([id, link, imageUrl, title, format]) => ({
         id: Number(id), link, imageUrl, title: title.trim(), format, createdAt: new Date()
     })
 
-const resolveTorrentLink = () => ((data) => {
+const resolveMovieTorrentLink = () => ((data) => {
     const {imageUrl} = data
     const basename = path.basename(imageUrl, ".jpg")
     const torrentLink = getTorrentPathname()+basename
     return {...data, torrentLink}
 })
+
+
+const resolveSerieTorrentLink = function(series){
+    const {harvester} = this
+    const source = Observable.fromArray(series)
+    return Observable.zip(source, Observable.interval(CONNECTION_INTERVAL))
+            .map(([serie]) => serie)
+            .flatMap(serie => {
+                return Observables.fromUrl(serie.link)
+                .map(harvester.getTorrentLink)
+                .map(torrentLink => ({...serie, torrentLink}))
+            })
+            .toArray()
+}
  
 const processMovies = function(movies){
     const {store: { substractMovieIds, persistMovies }} = this
@@ -32,7 +45,7 @@ const processMovies = function(movies){
     const inputObservable = Observable.fromArray(movies)
                                 .map(foldArrayToObject)
     return Observable.concat(featuredObservable, inputObservable)
-            .map(resolveTorrentLink())
+            .map(resolveMovieTorrentLink())
             .toArray()
             .flatMap(movies => Observable.fromPromise(substractMovieIds(movies)))
             .flatMap(movies => Observable.fromPromise(persistMovies(movies))
@@ -40,11 +53,12 @@ const processMovies = function(movies){
 }
 
 const processSeries = function(series){
-    const {store: { substractSerieIds, persistSeries }} = this
+    const {store: { substractSerieIds, persistSeries }, harvester} = this
     return Observable.fromArray(series)
             .map(foldArrayToObject)
             .toArray()
             .flatMap(series => Observable.fromPromise(substractSerieIds(series)))
+            .flatMap(resolveSerieTorrentLink.bind({harvester}))
             .flatMap(series => Observable.fromPromise(persistSeries(series))
                                 .map(() => series))
 }

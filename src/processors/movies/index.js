@@ -55,7 +55,7 @@ class MovieProcessor extends Processor{
         .map(([movie, exists])=>movie)
 
     return Observable.zip(processedSource, Observable.interval(CONNECTION_INTERVAL))
-        .map(([movie, _]) => movie)
+        .map(([movie]) => movie)
         .flatMap(movie => getMovieDetail.bind({movie, harvester})())
         .flatMap(movie=>persistMovie.bind({movie, store})())
     }
