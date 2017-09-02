@@ -9,19 +9,18 @@
   "scripts": {
     "start": "babel-node src/main.js",
     "serve": "node build/main.bundle.js",
-    "test": "ava --timeout=10m",
-    "simple-test": "babel-node test/index.js",
+    "test": "babel-node test/index.js",
     "movie": "babel-node src/functions/movies.js",
     "omnibus": "babel-node src/functions/omnibus.js",
-    "build": "webpack",
-    "clean": "node clean-up.js"
+    "build": "gulp",
+    "clean": "gulp clean",
+    "mail": "gulp mail"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "dotenv": "^4.0.0",
-    "dustjs-helpers": "^1.7.3",
-    "dustjs-linkedin": "^2.7.5",
     "got": "^7.1.0",
+    "handlebars": "^4.0.10",
     "lowdb": "^0.16.2",
     "mongoose": "^4.11.7",
     "ramda": "^0.24.1",
@@ -36,8 +35,17 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-mjml": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
     "mjml": "^3.3.3",
+    "run-sequence": "^2.1.0",
+    "through2": "^2.0.3",
+    "vinyl": "^2.1.0",
     "webpack": "^3.5.4",
-    "webpack-node-externals": "^1.6.0"
+    "webpack-node-externals": "^1.6.0",
+    "webpack-stream": "^4.0.0"
   }
 }

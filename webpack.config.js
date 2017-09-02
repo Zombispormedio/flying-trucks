@@ -7,8 +7,8 @@ module.exports = {
     target: 'node',
     externals: [nodeExternals()],
     entry: {
-        main: './main.js',
-        movies: './functions/movies.js'
+        main: './index.js',
+        movies: './functions/movies.js',
         omnibus: './functions/omnibus.js'
     },
     output: {
