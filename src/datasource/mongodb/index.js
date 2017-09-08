@@ -8,11 +8,12 @@ mongoose.Promise = Promise;
 const Module  =  {}
 
 Module.connectDatabase = () => {
-    return new Promise((resolve, reject) =>  {
+    return mongoose.connect(process.env.MONGODB_URL, { useMongoClient: true })
+    /*return new Promise((resolve, reject) =>  {
         const connection = mongoose.connect(getMongoUrl(), { useMongoClient: true }).connection
         connection.on("error", reject);
         connection.once('open',resolve);
-    })
+    })*/
 }
 
 Module.close = () => {

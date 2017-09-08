@@ -9,7 +9,7 @@ const MovieSchema = Schema({
     imageUrl: String,
     format: String,
     torrentLink: String,
-    createdAt: { type: Date, expires: process.env.TTL || 300 }
+    createdAt: { type: Date, expires: process.env.TTL || 20160 }
 })
 
 

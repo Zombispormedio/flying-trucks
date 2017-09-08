@@ -36,9 +36,7 @@ const resolveSerieTorrentLink = function(series){
     return Observable.fromArray(series)
             .flatMap(serie => {
                 return Observables.fromUrl(serie.link)
-                .doOnNext(()=>console.log(`get html from serir ${serie.id}`))
                 .map(harvester.getTorrentLink)
-                .doOnNext(()=>console.log(`get torrentlink ${serie.id}`))
                 .map(fixSerieTorrentLink())
                 .map(torrentLink => ({...serie, torrentLink}))
             })
@@ -65,14 +63,10 @@ const processSeries = function(series){
     return Observable.fromArray(series)
             .map(foldArrayToObject)
             .toArray()
-            .doOnNext(()=>console.log("Join movies and torrent link"))
             .flatMap(series => Observable.fromPromise(substractSerieIds(series)))
-            .doOnNext(()=>console.log("Substract ids series"))
             .flatMap(resolveSerieTorrentLink.bind({harvester}))
-            .doOnNext(()=>console.log("serie link"))
             .flatMap(series => Observable.fromPromise(persistSeries(series))
                                 .map(() => series))
-                                .doOnNext(()=>console.log("persist series"))
                                 
 }
 

@@ -14,7 +14,6 @@ const getCrawlerPromise = (uri) =>{
     return rp({
         uri,
         transform: function (body) {
-            console.log(uri)
             return cheerio.load(body);
         }
     })
