@@ -7,24 +7,26 @@
   "author": "Xavier Serrano Espinosa",
   "license": "MIT",
   "scripts": {
-    "start": "babel-node src/main.js",
-    "serve": "node build/main.bundle.js",
+    "start": "babel-node src/index.js",
+    "serve": "node build/min/index.bundle.min.js",
     "test": "babel-node test/index.js",
     "movie": "babel-node src/functions/movies.js",
-    "omnibus": "babel-node src/functions/omnibus.js",
     "build": "gulp",
     "clean": "gulp clean",
-    "mail": "gulp mail"
+    "mail": "gulp mail",
+    "deploy": "wt create ./build/omnibus.bundle.js --secrets-file .env"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "dotenv": "^4.0.0",
-    "got": "^7.1.0",
     "handlebars": "^4.0.10",
     "lowdb": "^0.16.2",
     "mongoose": "^4.11.7",
     "ramda": "^0.24.1",
-    "rx": "^4.1.0"
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "rx": "^4.1.0",
+    "sendgrid": "1.8"
   },
   "devDependencies": {
     "ava": "^0.21.0",

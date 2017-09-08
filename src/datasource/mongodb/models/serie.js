@@ -1,4 +1,5 @@
 import mongoose, {Schema} from 'mongoose'
+import {ModelTypes} from '../../../configuration/constants'
 
 const SerieSchema = Schema({
     id: { type: Number, index: { unique: true }},
@@ -11,4 +12,4 @@ const SerieSchema = Schema({
 })
 
 
-export default mongoose.model("Serie", SerieSchema)
+export default mongoose.model(ModelTypes.SERIE, SerieSchema)

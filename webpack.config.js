@@ -7,13 +7,15 @@ module.exports = {
     target: 'node',
     externals: [nodeExternals()],
     entry: {
-        main: './index.js',
-        movies: './functions/movies.js',
+       /* index: './index.js',
+        movies: './functions/movies.js',*/
         omnibus: './functions/omnibus.js'
     },
     output: {
         path: path.resolve(__dirname, './build'),
         filename: '[name].bundle.js',
+        library: "library",
+        libraryTarget: "commonjs2"
     },
 
     module: {

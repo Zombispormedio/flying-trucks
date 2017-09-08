@@ -2,7 +2,7 @@ import vm from 'vm'
 import path from 'path'
 import {Observable} from 'rx'
 import Processor from '../base.js'
-import {getTorrentPathname, CONNECTION_INTERVAL} from '../../configuration/constants'
+import {getDefaultPathname, CONNECTION_INTERVAL, getBadUrl} from '../../configuration/constants'
 import Observables from '../../lib/observables'
 
 const extractDataFromScript = (rawData)=>{
@@ -20,19 +20,26 @@ const foldArrayToObject = ([id, link, imageUrl, title, format]) => ({
 const resolveMovieTorrentLink = () => ((data) => {
     const {imageUrl} = data
     const basename = path.basename(imageUrl, ".jpg")
-    const torrentLink = getTorrentPathname()+basename
+    const torrentLink = getDefaultPathname() + basename + ".torrent"
     return {...data, torrentLink}
+})
+
+const fixSerieTorrentLink = () => ((link) => {
+    return getDefaultPathname() + 
+                link.replace(getBadUrl(), "").replace("/", "")
+                 + ".torrent"
 })
 
 
 const resolveSerieTorrentLink = function(series){
     const {harvester} = this
-    const source = Observable.fromArray(series)
-    return Observable.zip(source, Observable.interval(CONNECTION_INTERVAL))
-            .map(([serie]) => serie)
+    return Observable.fromArray(series)
             .flatMap(serie => {
                 return Observables.fromUrl(serie.link)
+                .doOnNext(()=>console.log(`get html from serir ${serie.id}`))
                 .map(harvester.getTorrentLink)
+                .doOnNext(()=>console.log(`get torrentlink ${serie.id}`))
+                .map(fixSerieTorrentLink())
                 .map(torrentLink => ({...serie, torrentLink}))
             })
             .toArray()
@@ -48,6 +55,7 @@ const processMovies = function(movies){
             .map(resolveMovieTorrentLink())
             .toArray()
             .flatMap(movies => Observable.fromPromise(substractMovieIds(movies)))
+            .doOnNext(console.log)
             .flatMap(movies => Observable.fromPromise(persistMovies(movies))
                                 .map(() => movies))
 }
@@ -57,10 +65,15 @@ const processSeries = function(series){
     return Observable.fromArray(series)
             .map(foldArrayToObject)
             .toArray()
+            .doOnNext(()=>console.log("Join movies and torrent link"))
             .flatMap(series => Observable.fromPromise(substractSerieIds(series)))
+            .doOnNext(()=>console.log("Substract ids series"))
             .flatMap(resolveSerieTorrentLink.bind({harvester}))
+            .doOnNext(()=>console.log("serie link"))
             .flatMap(series => Observable.fromPromise(persistSeries(series))
                                 .map(() => series))
+                                .doOnNext(()=>console.log("persist series"))
+                                
 }
 
 const foldData = function({featured, data: {series, movies}}){
@@ -78,8 +91,10 @@ class OmnibusProcessor extends Processor {
         const {harvester, store} = this
         const source = super.process()
         const featuredSource = source.map(harvester.getFeaturedMovies)
+                                    
         const inputSource = source.map(harvester.getScriptCode)
                                 .map(extractDataFromScript)
+                            
         return Observable.zip(featuredSource, inputSource, (featured, data)=>({featured, data}))
                         .flatMap(this.getFoldDataFunction())
     }

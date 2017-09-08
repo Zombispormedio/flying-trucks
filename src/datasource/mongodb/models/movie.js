@@ -1,4 +1,6 @@
 import mongoose, {Schema} from 'mongoose'
+import {ModelTypes} from '../../../configuration/constants'
+
 
 const MovieSchema = Schema({
     id: { type: Number, index: { unique: true }},
@@ -11,4 +13,4 @@ const MovieSchema = Schema({
 })
 
 
-export default mongoose.model("Movie", MovieSchema);
+export default mongoose.model(ModelTypes.MOVIE, MovieSchema);

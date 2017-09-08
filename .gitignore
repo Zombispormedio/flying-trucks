@@ -61,3 +61,5 @@ typings/
 
 db.json
 *.yarnclean
+
+*.bat
