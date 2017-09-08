@@ -8,12 +8,7 @@ mongoose.Promise = Promise;
 const Module  =  {}
 
 Module.connectDatabase = () => {
-    return mongoose.connect(process.env.MONGODB_URL, { useMongoClient: true })
-    /*return new Promise((resolve, reject) =>  {
-        const connection = mongoose.connect(getMongoUrl(), { useMongoClient: true }).connection
-        connection.on("error", reject);
-        connection.once('open',resolve);
-    })*/
+    return mongoose.connect(getMongoUrl(), { useMongoClient: true })
 }
 
 Module.close = () => {
@@ -21,12 +16,7 @@ Module.close = () => {
 }
 
 const persistModels = (type, data) => {
-    return new Promise((resolve, reject) => {
-        Models[type].create(data, function(err){
-            if(err)return reject(err)
-            resolve()
-        })
-    })
+    return Models[type].insertMany(data)
 }
 
 Module.persistMovies = curry(persistModels)(ModelTypes.MOVIE)

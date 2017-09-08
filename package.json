@@ -17,6 +17,7 @@
     "deploy": "wt create ./build/omnibus.bundle.js --secrets-file .env"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.1.2",
     "cheerio": "^1.0.0-rc.2",
     "dotenv": "^4.0.0",
     "handlebars": "^4.0.10",
@@ -25,8 +26,7 @@
     "ramda": "^0.24.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
-    "rx": "^4.1.0",
-    "sendgrid": "1.8"
+    "rx": "^4.1.0"
   },
   "devDependencies": {
     "ava": "^0.21.0",
