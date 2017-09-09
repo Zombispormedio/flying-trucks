@@ -1,9 +1,10 @@
 import vm from 'vm'
 import path from 'path'
 import {Observable} from 'rx'
-import Processor from '../base.js'
-import {getDefaultPathname, CONNECTION_INTERVAL, getBadUrl} from '../../configuration/constants'
 import Observables from '../../lib/observables'
+import {createStore, harvester} from '../../datasource' 
+import Processor, {createProcessor} from '../base.js'
+import {getDefaultPathname, CONNECTION_INTERVAL, getBadUrl, getOmnibusUrl} from '../../configuration/constants'
 
 const extractDataFromScript = (rawData)=>{
     const sandbox = {}
@@ -53,9 +54,7 @@ const processMovies = function(movies){
             .map(resolveMovieTorrentLink())
             .toArray()
             .flatMap(movies => Observable.fromPromise(substractMovieIds(movies)))
-            .doOnNext(console.log)
-            .flatMap(movies => Observable.fromPromise(persistMovies(movies))
-                                .map(() => movies))
+            .flatMap(movies => Observable.fromPromise(persistMovies(movies)).map(() => movies))
 }
 
 const processSeries = function(series){
@@ -65,8 +64,7 @@ const processSeries = function(series){
             .toArray()
             .flatMap(series => Observable.fromPromise(substractSerieIds(series)))
             .flatMap(resolveSerieTorrentLink.bind({harvester}))
-            .flatMap(series => Observable.fromPromise(persistSeries(series))
-                                .map(() => series))
+            .flatMap(series => Observable.fromPromise(persistSeries(series)).map(() => series))
                                 
 }
 
@@ -93,6 +91,16 @@ class OmnibusProcessor extends Processor {
                         .flatMap(this.getFoldDataFunction())
     }
 
+}
+
+export const createOmnibusProcessor = (url) =>{
+    const optionsProcessor = {
+        name: 'omnibus',
+        initUrl: url || getOmnibusUrl(),
+        harvester,
+        store: createStore()
+    }
+    return createProcessor(OmnibusProcessor.prototype, optionsProcessor)
 }
 
 

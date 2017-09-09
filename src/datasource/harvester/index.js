@@ -27,7 +27,6 @@ const getContentByRegexp = ($, selector, regexp) =>{
 }
 
 Module.getTorrentLink = ($) => {
-    console.log("getTorrentLink")
     const script = getContentByRegexp($, "script", SCRIPT_TORRENT_REGEX)
     const matches = script.match(HREF_REGEX_IN_SCRIPT)
     const [line, _] = matches
