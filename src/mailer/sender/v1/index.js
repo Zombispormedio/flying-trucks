@@ -1,12 +1,18 @@
 import sendgrid from 'sendgrid'
 import {getMailKey} from '../../../configuration/constants'
 
-export const sendMultiple = (msg) => {
+export const sendMultiple = (content) => {
     const sgMail = sendgrid(getMailKey())
-    return new Promise((resolve, reject) => {
-        sgMail.send(msg, (err, data) => {
+    const personalizations = content.to.map(to => ({
+        ...content,
+        to
+    }))
+    const createPromise = (message) => new Promise((resolve, reject) => {
+        sgMail.send(message, (err) => {
             if (err) return reject(err)
-            resolve(data)
+            resolve()
         })
     })
+
+    return Promise.all(personalizations.map(createPromise))
 }

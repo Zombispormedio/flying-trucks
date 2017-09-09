@@ -7,6 +7,7 @@ export const sendMail = (sender, {to, html}) => {
   const msg = {
     to,
     from: 'noreply@flyingtrucks.org',
+    fromname:  'Flying Trucks',
     subject: '🚚 Flying Trucks Daily',
     html,
   }
