@@ -13,8 +13,9 @@ export const sampleDataFromArray = (sampling) => ((data) => {
 const getCrawlerPromise = (uri) =>{
     return rp({
         uri,
+        encoding: "utf8",
         transform: function (body) {
-            return cheerio.load(body);
+            return cheerio.load(body, { decodeEntities: false });
         }
     })
 }
