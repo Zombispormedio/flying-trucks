@@ -38,7 +38,7 @@ const resolveSerieTorrentLink = function(series){
             .flatMap(serie => {
                 return Observables.fromUrl(serie.link)
                 .map(harvester.getTorrentLink)
-                .map(fixSerieTorrentLink())
+                //.map(fixSerieTorrentLink())
                 .map(torrentLink => ({...serie, torrentLink}))
             })
             .toArray()

@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "babel-node src/index.js",
-    "serve": "node build/min/index.bundle.min.js",
+    "serve": "node build/min/omnibus.bundle.min.js",
     "test": "babel-node test/index.js",
     "movie": "babel-node src/functions/movies.js",
     "build": "gulp",
@@ -49,6 +49,7 @@
     "vinyl": "^2.1.0",
     "webpack": "^3.5.4",
     "webpack-node-externals": "^1.6.0",
-    "webpack-stream": "^4.0.0"
+    "webpack-stream": "^4.0.0",
+    "wt-cli": "^8.3.0"
   }
 }
