@@ -1,10 +1,11 @@
 {
   "name": "flying-trucks",
   "version": "0.0.1",
-  "description": "Function as service working as webcrawler and newsletter generator",
+  "description":
+    "Function as service working as webcrawler and newsletter generator",
   "main": "src/index.js",
   "repository": "https://github.com/Zombispormedio/flying-trucks.git",
-  "author": "Xavier Serrano Espinosa",
+  "author": "Xavier Serrano",
   "license": "MIT",
   "scripts": {
     "start": "babel-node src/index.js",
@@ -14,7 +15,8 @@
     "build": "gulp",
     "clean": "gulp clean",
     "mail": "gulp mail",
-    "deploy": "wt create ./build/min/omnibus.bundle.min.js --secrets-file .prod.env"
+    "deploy":
+      "wt create ./build/min/omnibus.bundle.min.js --secrets-file .prod.env"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.1.2",
