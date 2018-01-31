@@ -22,4 +22,4 @@ request({
       DB_TYPE: process.env.DB_TYPE
     }
   }
-}).then(body => console.log(body));
+}).then(body => console.log("Deployed Successfully"));
