@@ -1,1 +1,1 @@
-npm run deploy
+./node_modules/.bin/wt create ./build/min/omnibus.bundle.min.js --secrets-file .deploy.env --token $WT_TOKEN

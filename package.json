@@ -17,10 +17,9 @@
     "build": "gulp",
     "clean": "gulp clean",
     "mail": "gulp mail",
-    "deploy": "wt create ./build/min/omnibus.bundle.min.js --secrets-file .deploy.env"
+    "deploy": "wt create ./build/min/omnibus.bundle.min.js --secrets-file .prod.env"
   },
   "dependencies": {
-    "@sendgrid/mail": "^6.1.2",
     "cheerio": "^1.0.0-rc.2",
     "dotenv": "^4.0.0",
     "handlebars": "^4.0.10",
