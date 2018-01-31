@@ -47,6 +47,36 @@ gulp.task("clean", function() {
   return del(["build", "db.json", "./src/mailer/template/*.js", ".deploy.env"]);
 });
 
+const createDeployEnv = () =>
+  `
+OMNIBUS_URL=${process.env.OMNIBUS_URL}
+MONGODB_URL=${process.env.MONGODB_URL}
+DEFAULT_PATHNAME=${process.env.DEFAULT_PATHNAME}
+SENDGRID_API_KEY=${process.env.SENDGRID_API_KEY}
+DB_TYPE=${process.env.DB_TYPE}
+`.trim();
+
+gulp.task("deploy-env", function() {
+  return file(".deploy.env", createDeployEnv(), { src: true }).pipe(
+    gulp.dest(".")
+  );
+});
+
+gulp.task("deploy", () => {
+  return gulp
+    .src("build/min/omnibus.bundle.min.js", { read: false })
+    .pipe(
+      shell(
+        [
+          `wt create --token ${process.env.WT_TOKEN} -c ${
+            process.env.WT_CONTAINER
+          } --secrets-file .deploy.env ./build/min/omnibus.bundle.min.js`
+        ],
+        { verbose: true }
+      )
+    );
+});
+
 gulp.task("default", function(cb) {
-  runSequence("clean", "mail", "webpack", "uglify", cb);
+  runSequence("clean", "mail", "webpack", "uglify", "deploy-env", cb);
 });

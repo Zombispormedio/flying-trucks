@@ -20,7 +20,7 @@
     "mail": "gulp mail",
     "deploy:dev":
       "wt create ./build/min/omnibus.bundle.min.js --secrets-file .prod.env",
-    "deploy": "node deploy"
+    "deploy": "gulp deploy"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.1.2",
