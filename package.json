@@ -20,7 +20,7 @@
     "mail": "gulp mail",
     "deploy:dev":
       "wt create ./build/min/omnibus.bundle.min.js --secrets-file .prod.env",
-    "deploy": "gulp deploy"
+    "deploy": "node deploy"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.1.2",
@@ -30,7 +30,7 @@
     "lowdb": "^0.16.2",
     "mongoose": "^4.11.7",
     "ramda": "^0.24.1",
-    "request": "^2.81.0",
+    "request": "^2.83.0",
     "request-promise": "^4.2.1",
     "rx": "^4.1.0",
     "sendgrid": "1.8.0"
