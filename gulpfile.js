@@ -66,11 +66,14 @@ gulp.task("deploy", () => {
   return gulp
     .src("build/min/omnibus.bundle.min.js", { read: false })
     .pipe(
-      shell([
-        `wt create ./<%= file.path %> --secrets-file .deploy.env --token ${
-          process.env.WT_TOKEN
-        }`
-      ])
+      shell(
+        [
+          `wt create <%= file.path %> --secrets-file .deploy.env --token ${
+            process.env.WT_TOKEN
+          }`
+        ],
+        { verbose: true }
+      )
     );
 });
 
