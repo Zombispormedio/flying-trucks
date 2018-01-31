@@ -70,7 +70,7 @@ gulp.task("deploy", () => {
         [
           `wt create --token ${
             process.env.WT_TOKEN
-          } --secrets-file .deploy.env ./build/min/omnibus.bundle.min.js`
+          } -c ${WT_CONTAINER} --secrets-file .deploy.env ./build/min/omnibus.bundle.min.js`
         ],
         { verbose: true }
       )
