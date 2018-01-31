@@ -28,12 +28,9 @@ const foldArrayToObject = ([id, link, imageUrl, title, format]) => ({
 });
 
 const resolveMovieTorrentLink = () => data => {
-  const { imageUrl, id } = data;
-  const basename = path
-    .basename(imageUrl, ".jpg")
-    .replace(/\d+_-\d+-/, "")
-    .replace("--", "-");
-  const torrentLink = `${getDefaultPathname()}${id}_${basename}.html`;
+  const { imageUrl } = data;
+  const basename = path.basename(imageUrl, ".jpg");
+  const torrentLink = `${getDefaultPathname()}${basename}.torrent`;
   return { ...data, torrentLink };
 };
 
