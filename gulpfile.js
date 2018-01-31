@@ -61,6 +61,13 @@ gulp.task("deploy-env", function() {
   );
 });
 
+gulp.task("deploy", () => {
+  return gulp.src('build/min/omnibus.bundle.min.js', {read: false})
+  .pipe(shell([
+    `wt create ./<%= file.path %> --secrets-file .deploy.env --token ${process.env.WT_TOKEN}`
+  ]))
+}))
+
 gulp.task("default", function(cb) {
   runSequence("clean", "mail", "webpack", "uglify", "deploy-env", cb);
 });

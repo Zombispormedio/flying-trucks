@@ -8,5 +8,5 @@ install:
  - npm install
 script:
   - npm run build
-  - wt create ./build/min/omnibus.bundle.min.js --secrets-file .deploy.env --token $WT_TOKEN
+  - npm run deploy
   
