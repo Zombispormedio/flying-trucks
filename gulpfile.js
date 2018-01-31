@@ -68,9 +68,8 @@ gulp.task("deploy", () => {
     .pipe(
       shell(
         [
-          `wt create <%= file.path %> --secrets-file .deploy.env --token ${
-            process.env.WT_TOKEN
-          }`
+          `wt init --token ${process.env.WT_TOKEN}`,
+          `wt create <%= file.path %> --secrets-file .deploy.env`
         ],
         { verbose: true }
       )
