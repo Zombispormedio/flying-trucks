@@ -68,9 +68,9 @@ gulp.task("deploy", () => {
     .pipe(
       shell(
         [
-          `wt create --token ${
-            process.env.WT_TOKEN
-          } -c ${WT_CONTAINER} --secrets-file .deploy.env ./build/min/omnibus.bundle.min.js`
+          `wt create --token ${process.env.WT_TOKEN} -c ${
+            process.env.WT_CONTAINER
+          } --secrets-file .deploy.env ./build/min/omnibus.bundle.min.js`
         ],
         { verbose: true }
       )
