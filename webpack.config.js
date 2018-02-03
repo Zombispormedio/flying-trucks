@@ -1,14 +1,13 @@
 const path = require("path");
 const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
   context: path.resolve(__dirname, "./src"),
   target: "node",
   externals: [nodeExternals()],
   entry: {
-    index: "./index.js",
-    // movies: './functions/movies.js',
     omnibus: "./functions/omnibus.js"
   },
   output: {
@@ -36,5 +35,6 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [new UglifyJsPlugin()]
 };

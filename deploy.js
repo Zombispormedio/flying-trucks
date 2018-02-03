@@ -1,12 +1,10 @@
 const fs = require("fs");
 const request = require("request-promise");
 
-const code = fs.readFileSync("build/min/omnibus.bundle.min.js").toString();
+const code = fs.readFileSync("build/omnibus.bundle.js").toString();
 
 request({
-  uri: `https://webtask.it.auth0.com/api/webtask/${
-    process.env.WT_CONTAINER
-  }/flying-trucks`,
+  uri: process.env.DEPLOY_ORIGIN,
   method: "PUT",
   headers: {
     Authorization: `Bearer ${process.env.WT_TOKEN}`
@@ -18,8 +16,7 @@ request({
       OMNIBUS_URL: process.env.OMNIBUS_URL,
       MONGODB_URL: process.env.MONGODB_URL,
       DEFAULT_PATHNAME: process.env.DEFAULT_PATHNAME,
-      SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
-      DB_TYPE: process.env.DB_TYPE
+      SENDGRID_API_KEY: process.env.SENDGRID_API_KEY
     }
   }
 }).then(body => console.log("Deployed Successfully"));

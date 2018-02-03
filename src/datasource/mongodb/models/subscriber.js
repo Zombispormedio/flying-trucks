@@ -1,8 +1,8 @@
-import mongoose, {Schema} from 'mongoose'
+import mongoose, { Schema } from "mongoose";
 
 const SubscriberSchema = Schema({
-  email: String
-})
+  email: String,
+  enabled: Boolean
+});
 
-
-export default mongoose.model("Subscriber", SubscriberSchema)
+export default mongoose.model("Subscriber", SubscriberSchema);

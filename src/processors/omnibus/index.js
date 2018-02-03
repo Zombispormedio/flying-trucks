@@ -106,14 +106,4 @@ class OmnibusProcessor extends Processor {
   }
 }
 
-export const createOmnibusProcessor = url => {
-  const optionsProcessor = {
-    name: "omnibus",
-    initUrl: url || getOmnibusUrl(),
-    harvester,
-    store: createStore()
-  };
-  return createProcessor(OmnibusProcessor.prototype, optionsProcessor);
-};
-
 export default OmnibusProcessor;
