@@ -6,11 +6,12 @@
   "repository": "https://github.com/Zombispormedio/flying-trucks.git",
   "author": "Xavier Serrano",
   "license": "MIT",
-  "scripts": {
-   
-  },
-  "dependencies": {
-  },
+  "scripts": {},
+  "dependencies": {},
   "devDependencies": {
+    "serverless": "^1.27.3",
+    "serverless-webpack": "^5.1.5",
+    "webpack": "^4.12.0",
+    "webpack-node-externals": "^1.7.2"
   }
 }
