@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
 import {getMongoUrl} from '../../../../configuration/constants'
 
-mongoose.Promise = Promise;
+mongoose.Promise = Promise
 
 export const connectDatabase = () => {
-    return mongoose.connect(getMongoUrl(), { useMongoClient: true })
+  return mongoose.connect(getMongoUrl())
 }
 
 export const disconnectDatabase = () => {
-    mongoose.connection.close()
+  mongoose.connection.close()
 }
