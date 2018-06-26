@@ -1,11 +1,11 @@
-const fs = require("fs");
-const request = require("request-promise");
+const fs = require('fs')
+const request = require('request-promise')
 
-const code = fs.readFileSync("build/omnibus.bundle.js").toString();
+const code = fs.readFileSync('build/omnibus.bundle.js').toString()
 
 request({
   uri: process.env.DEPLOY_ORIGIN,
-  method: "PUT",
+  method: 'PUT',
   headers: {
     Authorization: `Bearer ${process.env.WT_TOKEN}`
   },
@@ -19,4 +19,4 @@ request({
       SENDGRID_API_KEY: process.env.SENDGRID_API_KEY
     }
   }
-}).then(body => console.log("Deployed Successfully"));
+}).then(body => console.log('Deployed Successfully'))

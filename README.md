@@ -1,5 +1,7 @@
 # Flying Trucks 🚚
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Zombispormedio/flying-trucks.svg)](https://greenkeeper.io/)
+
 [Work in progress]
 
 I need information from webs constantly, but this webs are full of annoying ads and popups or whose navigation is monotonous and fewer direct. 
