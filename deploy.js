@@ -1,5 +1,6 @@
 const fs = require('fs')
 const request = require('request-promise')
+const { dependencies } = require('./package.json')
 
 const code = fs.readFileSync('build/omnibus.bundle.js').toString()
 
@@ -17,6 +18,9 @@ request({
       MONGODB_URL: process.env.MONGODB_URL,
       DEFAULT_PATHNAME: process.env.DEFAULT_PATHNAME,
       SENDGRID_API_KEY: process.env.SENDGRID_API_KEY
+    },
+    meta: {
+      'wt-node-dependencies': dependencies
     }
   }
 }).then(body => console.log('Deployed Successfully'))

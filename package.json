@@ -19,15 +19,15 @@
     "deploy": "node deploy"
   },
   "dependencies": {
-    "@sendgrid/mail": "^6.2.1",
-    "cheerio": "^1.0.0-rc.2",
-    "dotenv": "^6.0.0",
-    "handlebars": "^4.0.10",
-    "mongoose": "^5.1.5",
-    "ramda": "^0.25.0",
-    "request": "^2.83.0",
-    "request-promise": "^4.2.1",
-    "rx": "^4.1.0",
+    "@sendgrid/mail": "6.2.1",
+    "cheerio": "1.0.0-rc.2",
+    "dotenv": "6.0.0",
+    "handlebars": "4.0.10",
+    "mongoose": "5.1.5",
+    "ramda": "0.25.0",
+    "request": "2.83.0",
+    "request-promise": "4.2.1",
+    "rx": "4.1.0",
     "sendgrid": "5.2.3"
   },
   "devDependencies": {

@@ -6,8 +6,10 @@ export const bindNewsletterToHtml = () => Handlebars.compile(Templates.newslette
 export const sendMail = (sender, {to, html}) => {
   const msg = {
     to,
-    from: 'noreply@flyingtrucks.org',
-    fromname:  'Flying Trucks',
+    from: {
+      email: 'noreply@flyingtrucks.org',
+      name:  'Flying Trucks',
+    },
     subject: '🚚 Flying Trucks Daily',
     html,
   }
