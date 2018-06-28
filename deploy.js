@@ -20,7 +20,7 @@ request({
       SENDGRID_API_KEY: process.env.SENDGRID_API_KEY
     },
     meta: {
-      'wt-node-dependencies': dependencies
+      'wt-node-dependencies': JSON.stringify(dependencies)
     }
   }
 }).then(body => console.log('Deployed Successfully'))
