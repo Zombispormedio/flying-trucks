@@ -1,6 +1,6 @@
 const SCRIPT_TORRENT_REGEX = /openTorrent/g
 const HREF_REGEX_IN_SCRIPT = /window\.location\.href.*/g
-const SCRIPT_OMNIBUS_REGEX = /(^var (arrayMODPC|arrayMODSH) = \[\[.+)(\]\];)/mgi
+const SCRIPT_OMNIBUS_REGEX = /(^var (array.+) = \[\[.+)(\]\];)/mgi
 
 const Module  =  {}
 
@@ -23,6 +23,7 @@ const getContentByRegexp = ($, selector, regexp) =>{
                 const [{data}] = children
                 scripts.push(data)
             })
+
     return scripts.find((content) => regexp.test(content))
 }
 

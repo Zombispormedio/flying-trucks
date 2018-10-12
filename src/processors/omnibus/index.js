@@ -15,7 +15,11 @@ const extractDataFromScript = rawData => {
   const script = new vm.Script(rawData);
   const context = new vm.createContext(sandbox);
   script.runInContext(context);
-  return { movies: sandbox.arrayMODPC, series: sandbox.arrayMODSH };
+  return {
+    movies: sandbox.arrayMODPC || [],
+    series: sandbox.arrayMODSH || [],
+    seriesVO: sandbox.arrayMODSVO || []
+  };
 };
 
 const foldArrayToObject = ([id, link, imageUrl, title, format]) => ({
@@ -46,7 +50,9 @@ const resolveSerieTorrentLink = function(series) {
 };
 
 const processMovies = function(movies) {
-  const { store: { substractMovieIds, persistMovies } } = this;
+  const {
+    store: { substractMovieIds, persistMovies }
+  } = this;
   const featuredObservable = Observable.fromArray(this.featured).map(movie => ({
     ...movie,
     createdAt: new Date()
@@ -62,7 +68,10 @@ const processMovies = function(movies) {
 };
 
 const processSeries = function(series) {
-  const { store: { substractSerieIds, persistSeries }, harvester } = this;
+  const {
+    store: { substractSerieIds, persistSeries },
+    harvester
+  } = this;
   return Observable.fromArray(series)
     .map(foldArrayToObject)
     .toArray()
@@ -73,15 +82,24 @@ const processSeries = function(series) {
     );
 };
 
-const foldData = function({ featured, data: { series, movies } }) {
+const foldData = function({ featured, data: { series, movies, seriesVO } }) {
   const moviesProcessorObservable = processMovies.bind({ ...this, featured })(
     movies
   );
   const seriesProcessorObservable = processSeries.bind(this)(series);
-  return Observable.zip(
-    moviesProcessorObservable,
+
+  const seriesVOProcessorObservable = processSeries.bind(this)(seriesVO);
+
+  const seriesObservable = Observable.zip(
     seriesProcessorObservable,
-    (movies, series) => ({ movies, series })
+    seriesVOProcessorObservable,
+    (series, seriesVO) => ({ series, seriesVO })
+  );
+
+  return Observable.zip(
+    seriesObservable,
+    moviesProcessorObservable,
+    (allSeries, movies) => ({ ...allSeries, movies })
   );
 };
 

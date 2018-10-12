@@ -73,6 +73,33 @@
       <mj-raw>
         {{/each}} {{/if}}
       </mj-raw>
+       <!-- Series VO  Section-->
+      <mj-raw>
+        {{#if seriesVO.length}}
+      </mj-raw>
+      <mj-section background-color="#f0f0f0" padding-bottom="5" padding-top="5">
+        <mj-column>
+          <mj-text font-style="italic" font-size="20" color="#626262">
+            TV Series VO
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-raw>
+        {{#each seriesVO}}
+      </mj-raw>
+      <mj-section>
+        <mj-column>
+          <mj-image src="{{imageUrl}}" width="300px" href="{{link}}"></mj-image>
+          <mj-text padding-bottom="5" font-size="16px">
+            {{title}}
+          </mj-text>
+          <mj-text padding-top="0" font-size="12px" padding-bottom="5">{{format}}</mj-text>
+          <mj-button background-color="#F45E43" href="{{torrentLink}}">Download</mj-button>
+        </mj-column>
+      </mj-section>
+      <mj-raw>
+        {{/each}} {{/if}}
+      </mj-raw>
     </mj-container>
   </mj-body>
 

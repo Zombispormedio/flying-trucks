@@ -25,16 +25,17 @@ const sendHtmlByEmail = html =>
 
 const source = Observable.fromPromise(connectDatabase())
   .flatMap(() => omnibusProcessor.process())
-  .filter(({ series, movies }) => series.length > 0 || movies.length > 0)
+  .filter(({ series, movies, serieVO }) => series.length > 0 || movies.length > 0 || seriesVO.length > 0)
   .map(bindNewsletterToHtml())
   .flatMap(sendHtmlByEmail)
   .doOnCompleted(disconnectDatabase)
   .doOnError(disconnectDatabase)
   .subscribe(
-    function(x) {
+    function() {
       console.log("Mail sent successfully");
     },
     function(err) {
+      console.log(err);
       console.log(`Error: ${err}`);
     },
     function() {
