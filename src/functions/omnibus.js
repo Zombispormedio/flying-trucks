@@ -9,7 +9,7 @@ import {
 import { sendMultiple } from "../mailer/sender/v2";
 
 module.exports = function main(context, callback) {
-  this.data = {};
+  let data = {};
   setEnvironment(context.secrets);
   const omnibusProcessor = createOmnibusProcessor();
   const store = omnibusProcessor.getStore();
@@ -34,8 +34,8 @@ module.exports = function main(context, callback) {
     .doOnCompleted(disconnectDatabase)
     .doOnError(disconnectDatabase)
     .subscribe(
-      data => {
-        this.data = data;
+      result => {
+        data = result;
       },
       callback,
       () => {
