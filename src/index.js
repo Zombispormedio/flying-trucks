@@ -18,27 +18,31 @@ const store = omnibusProcessor.getStore();
 const sendNewsletter = (to, html) =>
   Observable.fromPromise(sendMail(sendMultiple, { to, html }));
 
-const sendHtmlByEmail = html =>
+const sendHtmlByEmail = () => ({ html, data }) =>
   Observable.fromPromise(store.getEmails())
     .filter(emails => emails.length > 0)
-    .flatMap(emails => sendNewsletter(emails, html));
+    .flatMap(emails => sendNewsletter(emails, html))
+    .map(() => data);
 
 const source = Observable.fromPromise(connectDatabase())
   .flatMap(() => omnibusProcessor.process())
-  .filter(({ series, movies, serieVO }) => series.length > 0 || movies.length > 0 || seriesVO.length > 0)
+  .filter(
+    ({ series, movies, seriesVO }) =>
+      series.length > 0 || movies.length > 0 || seriesVO.length > 0
+  )
   .map(bindNewsletterToHtml())
-  .flatMap(sendHtmlByEmail)
+  .flatMap(sendHtmlByEmail())
   .doOnCompleted(disconnectDatabase)
   .doOnError(disconnectDatabase)
   .subscribe(
-    function() {
+    data => {
+      console.log(data);
       console.log("Mail sent successfully");
     },
-    function(err) {
+    err => {
       console.log(err);
-      console.log(`Error: ${err}`);
     },
-    function() {
+    () => {
       console.log("Completed");
     }
   );
