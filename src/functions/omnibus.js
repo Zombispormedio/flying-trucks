@@ -1,7 +1,7 @@
 import { Observable } from "rx";
 import { createOmnibusProcessor } from "../processors";
 import { bindNewsletterToHtml, sendMail } from "../mailer";
-import { setEnvironment, getSentryDSN } from "../configuration/constants";
+import { setEnvironment, getSentryDSN, getSentryEnv } from "../configuration/constants";
 import {
   connectDatabase,
   disconnectDatabase
@@ -50,13 +50,12 @@ module.exports = function main(context, callback) {
         callback(err);
       },
       () => {
-        console.log(`
-          Completed: 
+        Sentry.captureMessage(`
+          Completed
           -  ${resultData.movies.length} movies
           -  ${resultData.series.length} series
           -  ${resultData.seriesVO.length} series VO
         `);
-        Sentry.captureMessage("Completed");
         callback(null, { status: "Completed", data: resultData });
       }
     );
