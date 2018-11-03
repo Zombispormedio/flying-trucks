@@ -1,6 +1,6 @@
 export const CONNECTION_INTERVAL = 1000;
 
-var environment;
+let environment;
 
 export const setEnvironment = e => {
   environment = e;
@@ -15,6 +15,10 @@ export const getMongoUrl = () => {
 };
 
 export const getOmnibusUrl = () => environment.OMNIBUS_URL;
+
+export const getSentryDSN = () => environment.SENTRY_DSN;
+
+export const getSentryEnv = () => environment.SENTRY_ENV;
 
 const createModelTypesModule = () => {
   const module = {};

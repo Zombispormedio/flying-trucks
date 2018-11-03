@@ -1,16 +1,19 @@
 import { Observable } from "rx";
 import { createOmnibusProcessor } from "../processors";
 import { bindNewsletterToHtml, sendMail } from "../mailer";
-import { setEnvironment } from "../configuration/constants";
+import { setEnvironment, getSentryDSN } from "../configuration/constants";
 import {
   connectDatabase,
   disconnectDatabase
 } from "../datasource/mongodb/connection/v2";
 import { sendMultiple } from "../mailer/sender/v2";
 
+const Sentry = require('@sentry/node');
+
 module.exports = function main(context, callback) {
-  let data = {};
   setEnvironment(context.secrets);
+  Sentry.init({ dsn: getSentryDSN(), environment: getSentryEnv() });
+
   const omnibusProcessor = createOmnibusProcessor();
   const store = omnibusProcessor.getStore();
 
@@ -23,7 +26,12 @@ module.exports = function main(context, callback) {
       .flatMap(emails => sendNewsletter(emails, html))
       .map(() => data);
 
-  const source = Observable.fromPromise(connectDatabase())
+  
+  let resultData = {
+    series: [], movies: [], seriesVO: []
+  };
+
+  Observable.fromPromise(connectDatabase())
     .flatMap(() => omnibusProcessor.process())
     .filter(
       ({ series, movies, seriesVO }) =>
@@ -35,11 +43,20 @@ module.exports = function main(context, callback) {
     .doOnError(disconnectDatabase)
     .subscribe(
       result => {
-        data = result;
+        resultData = result;
       },
-      callback,
+      err => {
+        Sentry.captureException(err);
+        callback(err);
+      },
       () => {
-        callback(null, { status: "Completed", data });
+        Sentry.captureMessage(`
+          Completed: 
+          -  ${resultData.movies.length} movies
+          -  ${resultData.series.length} series
+          -  ${resultData.seriesVO.length} series VO
+        `);
+        callback(null, { status: "Completed", data: resultData });
       }
     );
 };

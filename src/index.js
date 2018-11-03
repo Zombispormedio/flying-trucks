@@ -1,7 +1,7 @@
 import { Observable } from "rx";
 import util from "util";
 import { configureEnvironment } from "./configuration";
-import { setEnvironment } from "./configuration/constants";
+import { setEnvironment, getSentryDSN, getSentryEnv } from "./configuration/constants";
 import {
   connectDatabase,
   disconnectDatabase
@@ -10,8 +10,13 @@ import { createOmnibusProcessor } from "./processors";
 import { bindNewsletterToHtml, sendMail } from "./mailer";
 import { sendMultiple } from "./mailer/sender/v2";
 
+const Sentry = require('@sentry/node');
+
 configureEnvironment();
 setEnvironment(process.env);
+
+Sentry.init({ dsn: getSentryDSN(),  environment: getSentryEnv() });
+
 const omnibusProcessor = createOmnibusProcessor();
 const store = omnibusProcessor.getStore();
 
@@ -41,8 +46,10 @@ const source = Observable.fromPromise(connectDatabase())
     },
     err => {
       console.log(err);
+      Sentry.captureException(err);
     },
     () => {
+      Sentry.captureMessage("Completed");
       console.log("Completed");
     }
   );
