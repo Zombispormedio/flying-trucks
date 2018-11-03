@@ -13,7 +13,7 @@ const Sentry = require('@sentry/node');
 module.exports = function main(context, callback) {
   setEnvironment(context.secrets);
   Sentry.init({ dsn: getSentryDSN(), environment: getSentryEnv() });
-
+  console.log(getSentryDSN(), getSentryEnv())
   const omnibusProcessor = createOmnibusProcessor();
   const store = omnibusProcessor.getStore();
 
@@ -50,12 +50,13 @@ module.exports = function main(context, callback) {
         callback(err);
       },
       () => {
-        Sentry.captureMessage(`
+        console.log(`
           Completed: 
           -  ${resultData.movies.length} movies
           -  ${resultData.series.length} series
           -  ${resultData.seriesVO.length} series VO
         `);
+        Sentry.captureMessage("Completed");
         callback(null, { status: "Completed", data: resultData });
       }
     );

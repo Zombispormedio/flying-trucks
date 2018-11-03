@@ -1,7 +1,10 @@
 import { Observable } from "rx";
-import util from "util";
 import { configureEnvironment } from "./configuration";
-import { setEnvironment, getSentryDSN, getSentryEnv } from "./configuration/constants";
+import {
+  setEnvironment,
+  getSentryDSN,
+  getSentryEnv
+} from "./configuration/constants";
 import {
   connectDatabase,
   disconnectDatabase
@@ -10,12 +13,12 @@ import { createOmnibusProcessor } from "./processors";
 import { bindNewsletterToHtml, sendMail } from "./mailer";
 import { sendMultiple } from "./mailer/sender/v2";
 
-const Sentry = require('@sentry/node');
+const Sentry = require("@sentry/node");
 
 configureEnvironment();
 setEnvironment(process.env);
 
-Sentry.init({ dsn: getSentryDSN(),  environment: getSentryEnv() });
+Sentry.init({ dsn: getSentryDSN(), environment: getSentryEnv() });
 
 const omnibusProcessor = createOmnibusProcessor();
 const store = omnibusProcessor.getStore();
@@ -41,7 +44,11 @@ const source = Observable.fromPromise(connectDatabase())
   .doOnError(disconnectDatabase)
   .subscribe(
     data => {
-      console.log(data);
+      console.log(`
+      -  ${data.movies.length} movies
+      -  ${data.series.length} series
+      -  ${data.seriesVO.length} series VO
+      `);
       console.log("Mail sent successfully");
     },
     err => {
