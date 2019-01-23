@@ -3,7 +3,7 @@ branches:
   only:
     - master
 node_js:
- - "lts/*"
+  - "8"
 install:
  - npm install
 script:
