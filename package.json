@@ -24,7 +24,7 @@
     "cheerio": "1.0.0-rc.2",
     "dotenv": "6.0.0",
     "handlebars": "4.0.11",
-    "mongoose": "5.2.3",
+    "mongoose": "5.2.4",
     "ramda": "0.25.0",
     "request": "2.87.0",
     "request-promise": "4.2.2",
